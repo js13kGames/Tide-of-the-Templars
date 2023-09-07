@@ -1,55 +1,116 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8" />
-
-<style id="webmakerstyle">
-canvas {
-  background: black;
-}
-canvas {
-  border: 1px solid white;  
-} 
-</style>
+  <meta charset="UTF-8" />
+  
+  <style id="webmakerstyle">
+    canvas {
+      background: black;
+    }
+    canvas {
+      border: 1px solid white;  
+    } 
+  </style>
 </head>
 <body>
-  <canvas width="600" height="600"></canvas>
-
-<script src="core.js"></script>
-<script src="sprite.js"></script>
-<script src="gameLoop.js"></script>
-<script src="pointer.js"></script>
-<script src="keyboard.js"></script>
-<script>
-// Learn More here -> https://straker.github.io/kontra/getting-started
-kontra.init();
-
-var sprite = kontra.sprite({
-  x: 100,        // starting x,y position of the sprite
-  y: 80,
-  color: '#bad455',  // fill color of the sprite rectangle
-  width: 20,     // width and height of the sprite rectangle
-  height: 40,
-  dx: 2,          // move the sprite 2px to the right every frame
-});
-
-var loop = kontra.gameLoop({  // create the main game loop
-  update() {        // update the game state
-    sprite.update();
-
-    // wrap the sprites position when it reaches
-    // the edge of the screen
-    if (sprite.x > kontra.canvas.width) {
-      sprite.x = -sprite.width;
+  <canvas id="game" width="600" height="600" tabindex="1"></canvas>
+  
+  <script src="kontra.min.js"></script>
+  
+  <script>
+    
+    let { canvas, context } = kontra.init();
+    let sprites = [];
+    let rocks = [];
+    
+    kontra.initKeys();
+    function createRock() {
+      let rock = kontra.Sprite({
+        x: 600,
+        y: Math.random() * 600,
+        width: 30,     // width and height of the sprite rectangle
+        height: 30,
+        radius: 6,  // we'll use this later for collision detection
+        render() {
+          this.context.strokeStyle = 'blue';
+          this.context.fillStyle = 'lightblue';
+          this.context.beginPath();
+          this.context.rect(0, 0, 30, 30);
+          this.context.fill();
+          this.context.stroke();
+        },
+        update(){
+          this.x -= 2;
+          if (this.x < 0) {
+            this.x = 600;
+            this.y = Math.random() * 600;
+          }
+        }
+      });
+      rocks.push(rock);
+      sprites.push(rock);
     }
-  },
-  render() {        // render the game state
-    sprite.render();
-  }
-});
-
-loop.start();    // start the game
-//# sourceURL=userscript.js
-</script>
-</body>
-</html>
+    for (let i = 0; i < 4; i++) {
+      setTimeout(createRock, i * 1000);
+    }
+    
+    let ship = kontra.Sprite({
+      x: 300,
+      y: 300,
+      width: 60,     // width and height of the sprite rectangle
+      height: 30,
+      radius: 6,  // we'll use this later for collision detection
+      render() {
+        this.context.strokeStyle = 'red';
+        this.context.fillStyle = 'red';
+        this.context.beginPath();
+        this.context.rect(0, 0, 60, 30);
+        this.context.fill();
+        this.context.stroke();
+      },
+      update() {
+        // move the ship up and down
+        if (kontra.keyPressed('arrowup')) {
+          this.ddy = -1; // move the ship up by setting its vertical acceleration to -2
+        } else if (kontra.keyPressed('arrowdown')) {
+          this.ddy = 1; // move the ship down by setting its vertical acceleration to 2
+        } else {
+          this.ddy = 0; // reset the vertical acceleration if neither up nor down key is pressed
+        }
+        
+        // limit the ship's movement to the canvas
+        if (this.y < 0) {
+          this.y = 0;
+          this.dy = 0;
+        } else if (this.y + this.height > canvas.height) {
+          this.y = canvas.height - this.height;
+          this.dy = 0;
+        }
+        
+        // check for collisions with rocks
+        rocks.forEach(rock => {
+          if (kontra.collides(this, rock)) {
+            console.log('Ship collided with a rock!');
+          }
+        });
+        
+        this.advance();
+      }
+    });
+    
+    sprites.push(ship);
+    
+    let loop = kontra.GameLoop({
+      update() {
+        sprites.map(sprite => {
+          sprite.update();
+        })},
+        render() {
+          sprites.map(sprite => sprite.render());
+        }
+      });
+      loop.start();   // start the game
+      //# sourceURL=userscript.js
+    </script>
+  </body>
+  </html>
