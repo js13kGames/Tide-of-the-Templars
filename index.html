@@ -3,18 +3,42 @@
 <head>
   <meta charset="UTF-8" />
   
-  <style id="webmakerstyle">
-    canvas {
-      background: black;
+  <style>
+    #background {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 200%;
+      height: 100%;
+      background-image: url('water.svg');
+      background-repeat: repeat-x;
+      background-size: cover;
+      animation: move-background 10s linear infinite;
     }
-    canvas {
-      border: 1px solid white;  
-    } 
+
+    #game {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background-color: tomato;
+      top: 0;
+      left: 0;
+    }
+
+    @keyframes move-background {
+      from {
+        transform: translateX(0);
+      }
+      to {
+        transform: translateX(-50%);
+      }
+    }
   </style>
 </head>
 <body>
-  <canvas id="game" width="600" height="600" tabindex="1"></canvas>
-  
+  <div id="background"></div>
+  <canvas id="game" tabindex="1"></canvas>
+
   <script src="kontra.min.js"></script>
   
   <script>
@@ -30,10 +54,10 @@
     kontra.initKeys();
     function createRock() {
       let rock = kontra.Sprite({
-        x: 600,
-        y: Math.random() * 600,
-        width: 30,     // width and height of the sprite rectangle
-        height: 30,
+        x: canvas.width,
+        y: Math.random() * canvas.height,
+        width: 20,     // width and height of the sprite rectangle
+        height: 20,
         radius: 6,  // we'll use this later for collision detection
         render() {
           this.context.strokeStyle = 'blue';
@@ -70,8 +94,8 @@
     }
 
     let ship = kontra.Sprite({
-      x: 300,
-      y: 300,
+      x: 100,
+      y: canvas.height / 2,
       width: 60,     // width and height of the sprite rectangle
       height: 30,
       radius: 6,  // we'll use this later for collision detection
