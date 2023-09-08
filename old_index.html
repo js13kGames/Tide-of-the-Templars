@@ -21,7 +21,7 @@
       top: 0;
       left: 0;
     }
-
+    
     #container {
       position: relative;
       width: 600px;
@@ -40,14 +40,14 @@
       height: 20px;
       border: 2px solid rgb(199, 159, 98);
     }
-
+    
     #lifebar {
       height: 100%;
       width: 100%;
       background-color: blanchedalmond;
       transition: width 1s ease;
     }
-
+    
     @keyframes move-background {
       from {
         transform: translateX(0);
@@ -75,21 +75,15 @@
     }
     
     kontra.initKeys();
+    
+    let rockImage = new Image();
+    rockImage.src = 'rock.png';
     function createRock() {
       let rock = kontra.Sprite({
         x: canvas.width,
         y: Math.random() * canvas.height,
-        width: 30,     // width and height of the sprite rectangle
-        height: 30,
+        image: rockImage,
         radius: 6,  // we'll use this later for collision detection
-        render() {
-          this.context.strokeStyle = 'blue';
-          this.context.fillStyle = 'lightblue';
-          this.context.beginPath();
-          this.context.rect(0, 0, 30, 30);
-          this.context.fill();
-          this.context.stroke();
-        },
         update(){
           this.x -= 2;
           if (this.x < 0) {
@@ -115,7 +109,7 @@
         await sleep(150)
       }
     }
-
+    
     function changeLife(newLife) {
       remainingLife = newLife > 100 ? 100 : (newLife < 0 ? 0 : newLife)
       const lifebar = document.getElementById("lifebar")
@@ -124,7 +118,6 @@
     
     let shipImage = new Image();
     shipImage.src = 'boat.png';
-    shipImage.onload = function() {
       let ship = kontra.Sprite({
         x: 100,
         y: canvas.height / 2,
@@ -166,7 +159,6 @@
         }
       });
       sprites.push(ship);
-    };
     
     let loop = kontra.GameLoop({
       update() {
