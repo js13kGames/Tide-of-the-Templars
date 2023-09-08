@@ -75,6 +75,9 @@
     }
     
     kontra.initKeys();
+
+    let rockImage = new Image();
+    rockImage.src = 'rock.png';
     function createRock() {
       let rock = kontra.Sprite({
         x: canvas.width,
@@ -82,14 +85,7 @@
         width: 30,     // width and height of the sprite rectangle
         height: 30,
         radius: 6,  // we'll use this later for collision detection
-        render() {
-          this.context.strokeStyle = 'blue';
-          this.context.fillStyle = 'lightblue';
-          this.context.beginPath();
-          this.context.rect(0, 0, 30, 30);
-          this.context.fill();
-          this.context.stroke();
-        },
+        image: rockImage,
         update(){
           this.x -= 2;
           if (this.x < 0) {
