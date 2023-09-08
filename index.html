@@ -69,6 +69,7 @@
     let { canvas, context } = kontra.init();
     let sprites = [];
     let rocks = [];
+    let fishArray = [];
     
     function sleep(ms) {
       return new Promise(resolve => setTimeout(resolve, ms));
@@ -78,6 +79,7 @@
 
     let rockImage = new Image();
     rockImage.src = 'rock.png';
+
     function createRock() {
       let rock = kontra.Sprite({
         x: canvas.width,
@@ -100,6 +102,35 @@
     }
     for (let i = 0; i < 4; i++) {
       setTimeout(createRock, i * 1000);
+    }
+
+
+    let fishImage = new Image();
+    fishImage.src = 'fish.png';
+    
+    function createFish() {
+      let fish = kontra.Sprite({
+        x: canvas.width,
+        y: Math.random() * canvas.height,
+        width: 60,     // width and height of the sprite rectangle
+        height: 15,
+        radius: 6,  // we'll use this later for collision detection
+        image: fishImage,
+        update(){
+          this.x -= 3;
+          if (this.x < 0) {
+            this.x = 600;
+            this.y = Math.random() * 600;
+            this.collided = false
+            this.opacity = 1
+          }
+        }
+      });
+      fishArray.push(fish);
+      sprites.push(fish);
+    }
+    for (let i = 0; i < 2; i++) {
+      setTimeout(createFish, i * 5000);
     }
     
     async function crashAnimation() {
@@ -155,6 +186,16 @@
               rock.collided = true
               changeLife(remainingLife - 30)
               crashAnimation()
+            }
+          });
+
+          // check for collisions with rocks
+          fishArray.forEach(fish => {
+            if (!fish.collided && kontra.collides(this, fish)) {
+              console.log('Ship collided with a fish!');
+              fish.collided = true
+              changeLife(remainingLife + 10)
+              fish.opacity = 0
             }
           });
           
