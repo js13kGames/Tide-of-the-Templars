@@ -31,6 +31,23 @@
       margin: 0;
     }
     
+    #lifebar-container {
+      position: absolute;
+      z-index: 1;
+      bottom: 20px;
+      right: 20px;
+      width: 150px;
+      height: 20px;
+      border: 2px solid rgb(199, 159, 98);
+    }
+
+    #lifebar {
+      height: 100%;
+      width: 100%;
+      background-color: blanchedalmond;
+      transition: width 1s ease;
+    }
+
     @keyframes move-background {
       from {
         transform: translateX(0);
@@ -42,13 +59,13 @@
   </style>
 </head>
 <body>
-  <div id="container"><div id="background"></div></div>
+  <div id="container"><div id="background"></div><div id="lifebar-container"><div id="lifebar"></div></div></div>
   <canvas id="game" tabindex="1" width="600" height="600"></canvas>
   
   <script src="kontra.min.js"></script>
   
   <script type="text/javascript">
-    const MAX_ACC = 10
+    let remainingLife = 100
     let { canvas, context } = kontra.init();
     let sprites = [];
     let rocks = [];
@@ -98,7 +115,12 @@
         await sleep(150)
       }
     }
-    
+
+    function changeLife(newLife) {
+      remainingLife = newLife > 100 ? 100 : (newLife < 0 ? 0 : newLife)
+      const lifebar = document.getElementById("lifebar")
+      lifebar.style.width = `${remainingLife}%`
+    }
     
     let shipImage = new Image();
     shipImage.src = 'boat.png';
@@ -135,6 +157,7 @@
             if (!rock.collided && kontra.collides(this, rock)) {
               console.log('Ship collided with a rock!');
               rock.collided = true
+              changeLife(remainingLife - 30)
               crashAnimation()
             }
           });
