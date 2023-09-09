@@ -30,7 +30,7 @@
       padding: 0;
       margin: 0;
     }
-    
+
     #lifebar-container {
       position: absolute;
       z-index: 1;
@@ -48,6 +48,23 @@
       transition: width 1s ease;
     }
 
+    #days-passed {
+      position: absolute;
+      z-index: 1;
+      top: 20px;
+      right: 20px;
+      color: white;
+      font: 24px Verdana, sans-serif;
+    }
+
+    .night {
+      filter: brightness(0.5);
+    }
+
+    body {
+      transition: filter 2s ease;
+    }
+
     @keyframes move-background {
       from {
         transform: translateX(0);
@@ -59,22 +76,41 @@
   </style>
 </head>
 <body>
-  <div id="container"><div id="background"></div><div id="lifebar-container"><div id="lifebar"></div></div></div>
+  <div id="container">
+    <div id="background"></div>
+    <div id="lifebar-container"><div id="lifebar"></div></div>
+    <div id="days-passed">Day 1</div>
+  </div>
   <canvas id="game" tabindex="1" width="600" height="600"></canvas>
   
   <script src="kontra.min.js"></script>
   
   <script type="text/javascript">
     let remainingLife = 100
+    let hoursPassed = 0
     let { canvas, context } = kontra.init();
     let sprites = [];
     let rocks = [];
     let fishArray = [];
-    
+    const bodyDocument = document.getElementsByTagName("body")[0]
+    const daysElement = document.getElementById("days-passed")
+
     function sleep(ms) {
       return new Promise(resolve => setTimeout(resolve, ms));
     }
-    
+
+    function timePassed() {
+      hoursPassed += 1
+      if(hoursPassed % 12 == 0) {
+        bodyDocument.classList.toggle('night')
+      }
+      if(hoursPassed % 24 == 0) {
+        daysElement.innerHTML = `Day ${Math.floor(hoursPassed/24)+1}`
+      }
+    }
+
+    setInterval(timePassed, 2500);
+
     kontra.initKeys();
 
     let rockImage = new Image();
@@ -134,12 +170,13 @@
     }
     
     async function crashAnimation() {
-      const el = document.getElementsByTagName("body")[0]
       for (let i = 0; i < 3; i++) {
-        el.style.filter = 'invert(0.4)'
+        bodyDocument.style.transition = 'none'
+        bodyDocument.style.filter = 'invert(0.4)'
         await sleep(150)
-        el.style.filter = ''
+        bodyDocument.style.filter = ''
         await sleep(150)
+        bodyDocument.style.transition = ''
       }
     }
 
@@ -148,7 +185,7 @@
       const lifebar = document.getElementById("lifebar")
       lifebar.style.width = `${remainingLife}%`
     }
-    
+
     let shipImage = new Image();
     shipImage.src = 'boat.png';
     shipImage.onload = function() {
@@ -204,7 +241,7 @@
       });
       sprites.push(ship);
     };
-    
+
     let loop = kontra.GameLoop({
       update() {
         sprites.map(sprite => {
