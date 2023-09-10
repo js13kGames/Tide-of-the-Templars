@@ -65,6 +65,22 @@
       transition: filter 2s ease;
     }
 
+    #gameover {
+      position: absolute;
+      z-index: 2;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(100,0,0,0.5);
+      color: #FFFFFF;
+      text-align: center;
+      font: 64px Verdana, sans-serif;
+      display: none;
+    }
+
+    #result {
+      font-size: 32px;
+    }
+
     @keyframes move-background {
       from {
         transform: translateX(0);
@@ -80,9 +96,13 @@
     <div id="background"></div>
     <div id="lifebar-container"><div id="lifebar"></div></div>
     <div id="days-passed">Day 1</div>
+    <div id="gameover">
+      <p>Game Over</p>
+      <p id="result">You navigated 4234 hours</p>
+      <button onclick="restart()">Restart</button>
+    </div>
   </div>
   <canvas id="game" tabindex="1" width="600" height="600"></canvas>
-  
   <script src="kontra.min.js"></script>
   
   <script type="text/javascript">
@@ -94,13 +114,10 @@
     let fishArray = [];
     const bodyDocument = document.getElementsByTagName("body")[0]
     const daysElement = document.getElementById("days-passed")
+    const gameoverElement = document.getElementById("gameover")
 
-    function sleep(ms) {
-      return new Promise(resolve => setTimeout(resolve, ms));
-    }
-
-    function timePassed() {
-      hoursPassed += 1
+    function timePassed(reset=false) {
+      hoursPassed = reset ? 0 : hoursPassed+1
       if(hoursPassed % 12 == 0) {
         bodyDocument.classList.toggle('night')
       }
@@ -109,7 +126,21 @@
       }
     }
 
-    setInterval(timePassed, 2500);
+    setInterval(timePassed, 250);
+
+    let loop = kontra.GameLoop({
+      update() {
+        sprites.map(sprite => {
+          sprite.update();
+        })},
+        render() {
+          sprites.map(sprite => sprite.render());
+        }
+      });
+
+    function sleep(ms) {
+      return new Promise(resolve => setTimeout(resolve, ms));
+    }
 
     kontra.initKeys();
 
@@ -136,10 +167,22 @@
       rocks.push(rock);
       sprites.push(rock);
     }
-    for (let i = 0; i < 4; i++) {
-      setTimeout(createRock, i * 1000);
+    function initSprites(){
+      for (let i = 0; i < 4; i++) {
+        setTimeout(createRock, i * 1000);
+      }
+      for (let i = 0; i < 2; i++) {
+        setTimeout(createFish, i * 5000);
+      }
     }
 
+    initSprites()
+
+    function gameover() {
+      loop.stop()
+      document.getElementById("result").innerHTML = `You navigated ${hoursPassed} hours`
+      gameoverElement.style.display = 'block'
+    }
 
     let fishImage = new Image();
     fishImage.src = 'fish.png';
@@ -165,9 +208,6 @@
       fishArray.push(fish);
       sprites.push(fish);
     }
-    for (let i = 0; i < 2; i++) {
-      setTimeout(createFish, i * 5000);
-    }
     
     async function crashAnimation() {
       for (let i = 0; i < 3; i++) {
@@ -184,15 +224,16 @@
       remainingLife = newLife > 100 ? 100 : (newLife < 0 ? 0 : newLife)
       const lifebar = document.getElementById("lifebar")
       lifebar.style.width = `${remainingLife}%`
+      if(remainingLife == 0) {gameover()}
     }
 
     let shipImage = new Image();
     shipImage.src = 'boat.png';
-    shipImage.onload = function() {
+    function shipSprite() {
       let ship = kontra.Sprite({
         x: 100,
         y: canvas.height / 2,
-        radius: 6, 
+        radius: 6,
         image: shipImage,
         update() {
           // move the ship up and down
@@ -242,17 +283,20 @@
       sprites.push(ship);
     };
 
-    let loop = kontra.GameLoop({
-      update() {
-        sprites.map(sprite => {
-          sprite.update();
-        })},
-        render() {
-          sprites.map(sprite => sprite.render());
-        }
-      });
-      loop.start();   // start the game
-      //# sourceURL=userscript.js
+    shipImage.onload = shipSprite
+
+    function restart() {
+      sprites = []
+      changeLife(100)
+      timePassed(true)
+      initSprites()
+      shipSprite()
+      bodyDocument.classList.remove('night')
+      loop.start()
+      gameoverElement.style.display = ''
+    }
+
+    loop.start();
     </script>
   </body>
   </html>
