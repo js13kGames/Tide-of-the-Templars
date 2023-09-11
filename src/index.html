@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <meta
+    name="viewport"
+    content="initial-scale=1.0,width=device-width,user-scalable=no,viewport-fit=cover,maximum-scale=1.0, user-scalable=no"
+  />
+    <title>JS13K TypeScript Webpack Starter Party</title>
+    <style>
+      html, body {
+        width: 100%;
+        height: 100%;
+        min-height: fill-available;
+        margin: 0;
+        padding: 0;
+      }
+
+      #background {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 200%;
+      height: 100%;
+      background-repeat: repeat-x;
+      background-size: cover;
+      animation: move-background 10s linear infinite;
+    }
+    
+    #game {
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    #container {
+      position: relative;
+      width: 600px;
+      height: 600px;
+      overflow: hidden;
+      padding: 0;
+      margin: 0;
+    }
+
+    #lifebar-container {
+      position: absolute;
+      z-index: 1;
+      bottom: 20px;
+      right: 20px;
+      width: 150px;
+      height: 20px;
+      border: 2px solid rgb(199, 159, 98);
+    }
+
+    #lifebar {
+      height: 100%;
+      width: 100%;
+      background-color: blanchedalmond;
+      transition: width 1s ease;
+    }
+
+    #days-passed {
+      position: absolute;
+      z-index: 1;
+      top: 20px;
+      right: 20px;
+      color: white;
+      font: 24px Verdana, sans-serif;
+    }
+
+    .night {
+      filter: brightness(0.5);
+    }
+
+    body {
+      transition: filter 2s ease;
+    }
+
+    #gameover {
+      position: absolute;
+      z-index: 2;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(100,0,0,0.5);
+      color: #FFFFFF;
+      text-align: center;
+      font: 64px Verdana, sans-serif;
+      display: none;
+    }
+
+    #result {
+      font-size: 32px;
+    }
+
+    @keyframes move-background {
+      from {
+        transform: translateX(0);
+      }
+      to {
+        transform: translateX(-50%);
+      }
+    }
+    </style>
+  </head>
+  <body>
+    <div id="container">
+      <div id="background"></div>
+      <div id="lifebar-container"><div id="lifebar"></div></div>
+      <div id="days-passed">Day 1</div>
+      <div id="gameover">
+        <p>Game Over</p>
+        <p id="result">You navigated 4234 hours</p>
+        <button onclick="restart()">Restart</button>
+      </div>
+    </div>
+    <canvas id="game" tabindex="1" width="600" height="600"></canvas>
+    </body>
+</html>

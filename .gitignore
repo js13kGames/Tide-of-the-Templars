@@ -1,2 +1,8 @@
 .DS_Store
 *.xcf
+.cache
+node_modules
+dist
+zipped
+.DS_Store
+.idea

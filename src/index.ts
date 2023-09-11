@@ -1,111 +1,9 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="UTF-8" />
-  
-  <style>
-    #background {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 200%;
-      height: 100%;
-      background-image: url('water.svg');
-      background-repeat: repeat-x;
-      background-size: cover;
-      animation: move-background 10s linear infinite;
-    }
-    
-    #game {
-      position: absolute;
-      top: 0;
-      left: 0;
-    }
+import kontra from 'kontra';
+import rockImageSrc from "../assets/rock.png";
+import boatImageSrc from "../assets/boat.png";
+import fishImageSrc from "../assets/fish.png";
+import waterSvg from "../assets/water.svg";
 
-    #container {
-      position: relative;
-      width: 600px;
-      height: 600px;
-      overflow: hidden;
-      padding: 0;
-      margin: 0;
-    }
-
-    #lifebar-container {
-      position: absolute;
-      z-index: 1;
-      bottom: 20px;
-      right: 20px;
-      width: 150px;
-      height: 20px;
-      border: 2px solid rgb(199, 159, 98);
-    }
-
-    #lifebar {
-      height: 100%;
-      width: 100%;
-      background-color: blanchedalmond;
-      transition: width 1s ease;
-    }
-
-    #days-passed {
-      position: absolute;
-      z-index: 1;
-      top: 20px;
-      right: 20px;
-      color: white;
-      font: 24px Verdana, sans-serif;
-    }
-
-    .night {
-      filter: brightness(0.5);
-    }
-
-    body {
-      transition: filter 2s ease;
-    }
-
-    #gameover {
-      position: absolute;
-      z-index: 2;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(100,0,0,0.5);
-      color: #FFFFFF;
-      text-align: center;
-      font: 64px Verdana, sans-serif;
-      display: none;
-    }
-
-    #result {
-      font-size: 32px;
-    }
-
-    @keyframes move-background {
-      from {
-        transform: translateX(0);
-      }
-      to {
-        transform: translateX(-50%);
-      }
-    }
-  </style>
-</head>
-<body>
-  <div id="container">
-    <div id="background"></div>
-    <div id="lifebar-container"><div id="lifebar"></div></div>
-    <div id="days-passed">Day 1</div>
-    <div id="gameover">
-      <p>Game Over</p>
-      <p id="result">You navigated 4234 hours</p>
-      <button onclick="restart()">Restart</button>
-    </div>
-  </div>
-  <canvas id="game" tabindex="1" width="600" height="600"></canvas>
-  <script src="kontra.min.js"></script>
-  
-  <script type="text/javascript">
     let remainingLife = 100
     let hoursPassed = 0
     let { canvas, context } = kontra.init();
@@ -115,6 +13,8 @@
     const bodyDocument = document.getElementsByTagName("body")[0]
     const daysElement = document.getElementById("days-passed")
     const gameoverElement = document.getElementById("gameover")
+    const background = document.getElementById('background')
+    background.style.backgroundImage = `url(${waterSvg})`
 
     function timePassed(reset=false) {
       hoursPassed = reset ? 0 : hoursPassed+1
@@ -128,7 +28,7 @@
 
     setInterval(timePassed, 2500);
 
-    let loop = kontra.GameLoop({
+    const loop = kontra.GameLoop({
       update() {
         sprites.map(sprite => {
           sprite.update();
@@ -142,10 +42,10 @@
       return new Promise(resolve => setTimeout(resolve, ms));
     }
 
-    kontra.initKeys();
 
-    let rockImage = new Image();
-    rockImage.src = 'rock.png';
+
+    const rockImage = new Image();
+    rockImage.src = rockImageSrc;
 
     function createRock() {
       let rock = kontra.Sprite({
@@ -185,7 +85,7 @@
     }
 
     let fishImage = new Image();
-    fishImage.src = 'fish.png';
+    fishImage.src = fishImageSrc;
     
     function createFish() {
       let fish = kontra.Sprite({
@@ -228,7 +128,8 @@
     }
 
     let shipImage = new Image();
-    shipImage.src = 'boat.png';
+    shipImage.src = boatImageSrc;
+    kontra.initKeys();
     function shipSprite() {
       let ship = kontra.Sprite({
         x: 100,
@@ -297,6 +198,3 @@
     }
 
     loop.start();
-    </script>
-  </body>
-  </html>
