@@ -1,8 +1,8 @@
 {
-  "name": "js13k-webpack-typescript-party",
+  "name": "tide-of-the-templars",
   "version": "2.0.0",
   "license": "MIT",
-  "scripts": {
+    "scripts": {
     "start": "webpack serve --config webpack.dev.js",
     "build": "webpack --config webpack.prod.js",
     "check-file-size": "yarn node ./scripts/check-file-size.js",
@@ -15,7 +15,6 @@
     "html-minimizer-webpack-plugin": "^4.3.0",
     "html-webpack-plugin": "^5.0.0",
     "raw-loader": "^4.0.0",
-    "rollup-loader": "^0.3.0",
     "ts-loader": "^9.0.0",
     "typescript": "^5.2.2",
     "url-loader": "^4.1.0",

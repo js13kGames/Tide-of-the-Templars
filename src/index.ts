@@ -22,6 +22,11 @@ import waterSvg from "../assets/water.svg";
       if(hoursPassed % 24 == 0) daysElement.innerHTML = `Day ${Math.floor(hoursPassed/24)+1}`;
     }
 
+    if (keyPressed('r')) {
+      //prevent webpack from removing the keypress listener
+      restart()
+    }
+
     const loop = GameLoop({
       update() {
         sprites.map(sprite => {
