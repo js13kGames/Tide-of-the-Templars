@@ -48,7 +48,7 @@ import waterSvg from "../assets/water.svg";
         radius: 6,
         ...props,
         update() {
-          this.x -= props.speed;
+          this.x -= props.speed*((hoursPassed/24)+1);
           if (this.x < 0) {
             this.x = 600;
             this.y = Math.random() * 600;
@@ -181,7 +181,7 @@ import waterSvg from "../assets/water.svg";
 
     shipImage.onload = shipSprite
 
-    setInterval(timePassed, 2500);
+    setInterval(timePassed, 1500);
     initSprites()
     initKeys();
 
