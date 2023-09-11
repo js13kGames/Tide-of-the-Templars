@@ -24,6 +24,7 @@ import waterSvg from "../assets/water.svg";
 
     if (keyPressed('r')) {
       //prevent webpack from removing the keypress listener
+      console.log('r pressed');
       restart()
     }
 
@@ -102,6 +103,11 @@ import waterSvg from "../assets/water.svg";
       loop.stop()
       document.getElementById("result").innerHTML = `You navigated ${hoursPassed} hours`
       gameoverElement.style.display = 'block'
+      const restartButton = document.querySelector('#restart');
+
+      restartButton.addEventListener('click', () => {
+        restart();
+      });
     }
     
     async function crashAnimation() {
@@ -197,3 +203,4 @@ import waterSvg from "../assets/water.svg";
     }
 
     loop.start();
+
