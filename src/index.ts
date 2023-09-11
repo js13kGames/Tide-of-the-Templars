@@ -1,4 +1,4 @@
-import {init, GameLoop, Sprite, keyPressed, collides, initKeys} from 'kontra';
+import {init, initKeys, keyPressed, GameLoop, Sprite, collides} from 'kontra';
 import rockImageSrc from "../assets/rock.png";
 import boatImageSrc from "../assets/boat.png";
 import fishImageSrc from "../assets/fish.png";
@@ -6,7 +6,7 @@ import waterSvg from "../assets/water.svg";
 
     let remainingLife = 100
     let hoursPassed = 0
-    let { canvas, context } = init();
+    let { canvas } = init();
     let sprites = [];
     let rocks = [];
     let fishArray = [];
@@ -22,15 +22,9 @@ import waterSvg from "../assets/water.svg";
       if(hoursPassed % 24 == 0) daysElement.innerHTML = `Day ${Math.floor(hoursPassed/24)+1}`;
     }
 
-    if (keyPressed('r')) {
-      //prevent webpack from removing the keypress listener
-      console.log('r pressed');
-      restart()
-    }
-
     const loop = GameLoop({
       update() {
-        sprites.map(sprite => {
+                sprites.map(sprite => {
           sprite.update();
         })},
         render() {
@@ -139,9 +133,9 @@ import waterSvg from "../assets/water.svg";
         image: shipImage,
         update() {
           // move the ship up and down
-          if (keyPressed('arrowup')) {
+          if (keyPressed('arrowup') || keyPressed('w')) {
             this.ddy = -1; // move the ship up by setting its vertical acceleration to -2
-          } else if (keyPressed('arrowdown')) {
+          } else if (keyPressed('arrowdown') || keyPressed('s')) {
             this.ddy = 1; // move the ship down by setting its vertical acceleration to 2
           } else {
             this.ddy = 0; // reset the vertical acceleration if neither up nor down key is pressed
