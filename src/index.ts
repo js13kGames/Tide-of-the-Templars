@@ -15,6 +15,8 @@ import waterSvg from "../assets/water.svg";
     const gameoverElement = document.getElementById("gameover")
     const background = document.getElementById('background')
     background.style.backgroundImage = `url(${waterSvg})`
+    const UP = 'arrowup';
+    const DOWN = 'arrowdown';
 
     function timePassed(reset=false) {
       hoursPassed = reset ? 0 : hoursPassed+1;
@@ -133,9 +135,9 @@ import waterSvg from "../assets/water.svg";
         image: shipImage,
         update() {
           // move the ship up and down
-          if (keyPressed('arrowup') || keyPressed('w')) {
+          if (keyPressed(UP) || keyPressed('w')) {
             this.ddy = -1; // move the ship up by setting its vertical acceleration to -2
-          } else if (keyPressed('arrowdown') || keyPressed('s')) {
+          } else if (keyPressed(DOWN) || keyPressed('s')) {
             this.ddy = 1; // move the ship down by setting its vertical acceleration to 2
           } else {
             this.ddy = 0; // reset the vertical acceleration if neither up nor down key is pressed
