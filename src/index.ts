@@ -17,7 +17,6 @@ import waterSvg from "../assets/water.svg";
     background.style.backgroundImage = `url(${waterSvg})`
     const UP = 'arrowup';
     const DOWN = 'arrowdown';
-
     function timePassed(reset=false) {
       hoursPassed = reset ? 0 : hoursPassed+1;
       if(hoursPassed % 12 == 0) bodyDocument.classList.toggle('night');
@@ -198,5 +197,15 @@ import waterSvg from "../assets/water.svg";
       gameoverElement.style.display = ''
     }
 
-    loop.start();
+    window.onload = () => {
+      const startButton = document.getElementById('start-button');
+      const startScreen = document.getElementById('start-screen');
+  
+      startButton.addEventListener('click', () => {
+        startScreen.style.display = 'none';
+        loop.start();
+      });
+    };
+
+
 

@@ -15,6 +15,9 @@
         margin: 0;
         padding: 0;
         transition: filter 2s ease;
+        font-family: 'Garamond', serif;
+        font-size: 1rem;
+        color: white;
       }
 
       #background {
@@ -65,8 +68,8 @@
       z-index: 1;
       top: 20px;
       right: 20px;
-      color: white;
-      font: 24px Verdana, sans-serif;
+      font-size: 1.5rem;
+      line-height: 1.5rem;
     }
 
     .night {
@@ -81,13 +84,43 @@
       background-color: rgba(100,0,0,0.5);
       color: #FFF;
       text-align: center;
-      font: 64px Verdana, sans-serif;
+      font-size: 4rem;
+      line-height: 4rem;
       display: none;
     }
 
     #result {
       font-size: 32px;
     }
+
+    #start-screen {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 2;
+        width: 100%;
+        height: 100%;
+        background-color: #002d61;;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        color: #d1e6ff;
+        font-size: 24px;
+        padding: 2rem;
+        box-sizing: border-box;
+      }
+      #start-button,
+      #restart {
+        padding: 10px 20px;
+        background-color: #d1e6ff;
+        color: #002d61;
+        border: none;
+        border-radius: 5px;
+        font-size: 2rem;
+        cursor: pointer;
+        box-shadow: 0 2px 0 rgba(0, 0, 0, 0.15), 0 4px 8px rgba(0, 0, 0, 0.15);
+      }
 
     @keyframes move-background {
       from {
@@ -108,6 +141,11 @@
         <p>Game Over</p>
         <p id="result">You navigated 4234 hours</p>
         <button id='restart'>Restart</button>
+      </div>
+      <div id="start-screen">
+        <p>Welcome to Tide of the templars</p>
+        <p>How many days can you endure amidst the relentless waves? Steer your ship by using the <b>W</b> and <b>S</b> keys, and embrace the true essence of medieval maritime resilience.</p>
+        <button id="start-button">Start</button>
       </div>
     </div>
     <canvas id="game" tabindex="1" width="600" height="600"></canvas>
