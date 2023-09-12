@@ -14,7 +14,7 @@ import waterSvg from "../assets/water.svg";
     const daysElement = document.getElementById("days-passed")
     const gameoverElement = document.getElementById("gameover")
     const background = document.getElementById('background')
-    background.style.backgroundImage = `url(${waterSvg})`
+    background.style.backgroundImage = `url(${waterSvg}), url(${waterSvg}), url(${waterSvg})`
     const UP = 'arrowup';
     const DOWN = 'arrowdown';
     function timePassed(reset=false) {

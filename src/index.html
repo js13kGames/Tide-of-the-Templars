@@ -22,13 +22,11 @@
 
       #background {
       position: absolute;
-      top: 0;
-      left: 0;
-      width: 200%;
+      width: 100%;
       height: 100%;
-      background-repeat: repeat-x;
-      background-size: cover;
-      animation: move-background 10s linear infinite;
+      background-repeat: no-repeat;
+      background-size: 200%;
+      animation: move-background 5s linear infinite;
     }
     
     #game {
@@ -124,10 +122,10 @@
 
     @keyframes move-background {
       from {
-        transform: translateX(0);
+        background-position: -600px 0, 0 0, 600px 0;
       }
       to {
-        transform: translateX(-50%);
+        background-position: -1200px 0, -600px 0, 0px 0;
       }
     }
     </style>
