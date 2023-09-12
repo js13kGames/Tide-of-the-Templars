@@ -50,7 +50,7 @@ import waterSvg from "../assets/water.svg";
         ...props,
         update() {
           this.x -= props.speed*((hoursPassed/24)+1);
-          if (this.x < 0) {
+          if (this.x < -props.width) {
             this.x = 600;
             this.y = Math.random() * 600;
             this.collided = false;
@@ -85,6 +85,7 @@ import waterSvg from "../assets/water.svg";
       fishArray.push(fish);
       sprites.push(fish);
     }
+
     function initSprites(){
       for (let i = 0; i < 4; i++) {
         setTimeout(createRock, i * 1000);
@@ -121,7 +122,7 @@ import waterSvg from "../assets/water.svg";
       const lifebar = document.getElementById("lifebar");
       lifebar.style.width = `${remainingLife}%`;
       if(remainingLife == 0) gameover();
-    }    
+    }
 
     let shipImage = new Image();
     shipImage.src = boatImageSrc;
@@ -157,7 +158,6 @@ import waterSvg from "../assets/water.svg";
           // check for collisions with rocks
           rocks.forEach(rock => {
             if (!rock.collided && collides(this, rock)) {
-              console.log('Ship collided with a rock!');
               rock.collided = true
               changeLife(remainingLife - 30)
               crashAnimation()
@@ -167,7 +167,6 @@ import waterSvg from "../assets/water.svg";
           // check for collisions with rocks
           fishArray.forEach(fish => {
             if (!fish.collided && collides(this, fish)) {
-              console.log('Ship collided with a fish!');
               fish.collided = true
               changeLife(remainingLife + 10)
               fish.opacity = 0
@@ -183,7 +182,6 @@ import waterSvg from "../assets/water.svg";
     shipImage.onload = shipSprite
 
     setInterval(timePassed, 1500);
-    initSprites()
     initKeys();
 
     function restart() {
@@ -203,7 +201,7 @@ import waterSvg from "../assets/water.svg";
   
       startButton.addEventListener('click', () => {
         startScreen.style.display = 'none';
-        loop.start();
+        restart()
       });
     };
 
