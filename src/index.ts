@@ -15,6 +15,7 @@ import waterSvg from "../assets/water.svg";
     const gameoverElement = document.getElementById("gameover")
     const background = document.getElementById('background')
     background.style.backgroundImage = `url(${waterSvg}), url(${waterSvg}), url(${waterSvg})`
+    background.style.backgroundSize = '1200px' // I know, weird. This is to fix a bug in firefox...
     const UP = 'arrowup';
     const DOWN = 'arrowdown';
     function timePassed(reset=false) {
