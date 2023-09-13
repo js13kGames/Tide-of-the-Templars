@@ -27,10 +27,3 @@ Builds, minifies, and inlines the game to `./dist/index.html`. This command also
 ### `yarn party`
 
 Builds, minifies, inlines, and zips the game to `./zipped/game.zip`. This command finishes with a log message letting you know if the zip file is under 13k.
-
-## Notes
-
-- Put your TS or JS in `src/index.ts`
-- Put your css in `src/index.html`
-- Put your images or other assets in `assets/`
-- This starter pulls in [this plugin](https://github.com/facebook/create-react-app/blob/edc671eeea6b7d26ac3f1eb2050e50f75cf9ad5d/packages/react-dev-utils/InlineChunkHtmlPlugin.js#L10) from Facebook's [create-react-app](https://reactjs.org/docs/create-a-new-react-app.html) to inline the JS into the HTML file.
