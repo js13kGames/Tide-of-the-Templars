@@ -1,13 +1,10 @@
-## Purpose
+## Tide of the templars
 
-The purpose of this project is to help make building [JS13k](https://js13kgames.com/) projects easier for folks who are familiar with the JavaScript ecosystem but don't want to go through the hassle of setting up a JS13k-specific build environment. The bulk of this project is a [Webpack](https://webpack.js.org/) config that does the following: 
+An entry for the 2023 [https://js13kgames.com/] built with [kontra.js](https://straker.github.io/kontra/getting-started)
 
-- Transpiles TypeScript (if any)
-- Minifies the resulting JavaScript
-- Inlines the JavaScript into an `index.html` file (in production)
-- Zips the `index.html` file
-- Checks that the zip file is under 13k
-- Runs `webpack-bundle-analyzer`
+Embark on a perilous voyage in the 13th-century world of "Tide of the Templars." As a valiant Templar knight returning home after the last crusade, your mission is to steer the ship through treacherous waters. Utilize the W and S keys to navigate the ship, as you strive to keep the vessel afloat and the crew motivated.
+
+Test your skills with precise controls, avoiding rocks. Collect fish to replenish energy and keep your crew ready for the challenges ahead. Can you guide the Templar knight safely home on this treacherous journey? Prepare to embark on an unforgettable seafaring experience in "Tide of the Templars."
 
 ## Requirements
 
