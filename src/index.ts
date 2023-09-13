@@ -98,7 +98,7 @@ import waterSvg from "../assets/water.svg";
 
     function gameover() {
       loop.stop()
-      document.getElementById("result").innerHTML = `You navigated ${hoursPassed} hours`
+      document.getElementById("result").innerHTML = `You survived at sea for ${hoursPassed} hours`
       gameoverElement.style.display = 'block'
       const restartButton = document.querySelector('#restart');
 
@@ -165,7 +165,7 @@ import waterSvg from "../assets/water.svg";
             }
           });
 
-          // check for collisions with rocks
+          // check for collisions with fish
           fishArray.forEach(fish => {
             if (!fish.collided && collides(this, fish)) {
               fish.collided = true
