@@ -1,6 +1,6 @@
 ## Tide of the templars
 
-An entry for the 2023 [https://js13kgames.com/] built with [kontra.js](https://straker.github.io/kontra/getting-started)
+An entry for the 2023 [https://js13kgames.com/](js13 game competition) built with [kontra.js](https://straker.github.io/kontra/getting-started)
 
 Embark on a perilous voyage in the 13th-century world of "Tide of the Templars." As a valiant Templar knight returning home after the last crusade, your mission is to steer the ship through treacherous waters. Utilize the W and S keys to navigate the ship, as you strive to keep the vessel afloat and the crew motivated.
 
